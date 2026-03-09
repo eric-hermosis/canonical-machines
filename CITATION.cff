@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+title: "Canonical Machines"
+version: "0.1.1"
+type: article
+
+message: "If you use this work, please cite it using the DOI below."
+
+authors:
+  - family-names: "Hermosis"
+    given-names: "Eric"
+    orcid: "https://orcid.org/0009-0001-3721-5203"
+
+doi: "10.5281/zenodo.18905830"
+date-released: "2026-03-08"
+
+url: "https://github.com/eric-hermosis/canonical-machines"
+
+keywords:
+  - machine learning  
+  - thermodynamics
+  - inference
+  - artificial intelligence
+
+license: "CC-BY-4.0" 

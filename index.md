@@ -1,14 +1,14 @@
+# Canonical Machines
+
 ## Introduction
 
-In recent years, neural networks have developed the ability to emulate certain cognitive processes with an unprecedented level of performance.
-
-A prominent example of these architectures is sequence transformer models, known as transformers [@vaswani2017attention], which have become the current paradigm for information processing in language tasks, speech recognition, and computer vision, demonstrating outstanding performance in each of these domains.
+In recent years, neural networks have developed the ability to emulate certain cognitive processes with an unprecedented level of performance. A prominent example of these architectures is sequence to sequence transformer models, known as transformers [@vaswani2017attention], which have become the current paradigm for information processing in language tasks, speech recognition, and computer vision, demonstrating outstanding performance in each of these domains.
 
 Despite their success, many of the mechanisms underlying their operation are introduced heuristically, without a theoretical framework explaining their internal dynamics. This raises the need for a conceptual approach that connects the behavior of these networks with fundamental principles of physics, allowing the interaction of their units to be interpreted as processes governed by thermodynamic and statistical laws.
 
 In this work, we show that it is possible to develop a thermodynamic model that systematically derives the activation functions used in current architectures. This model not only explains the functioning of these mechanisms but also opens the possibility of developing new architectures and functional extensions based on physical and biological principles.
 
-To develop this model, an artificial neuron is described as a thermodynamic system with internal energy in equilibrium with a thermal bath. Using the concept of equilibrium, the integration of signals in biological neurons [@dayan2001theoretical]  is modeled as a reversible process, while activation is represented as an irreversible  aforeprocess with entropy production. This framework allows for the systematic derivation of a family of widely used activation functions.
+To develop this model, an artificial neuron is described as a thermodynamic system with internal energy in equilibrium with a thermal bath. Using the concept of equilibrium, the integration of signals in biological neurons [@dayan2001theoretical]  is modeled as a reversible process, while activation is represented as an irreversible  process with entropy production. This framework allows for the systematic derivation of a family of widely used activation functions.
  
 The same model is then used to introduce an excitation–inhibition mechanism inspired by biological neurons. Then, the attention mechanism emerges as a generalization for a model with an arbitrary number of possible responses.
 
@@ -18,13 +18,13 @@ Finally, a generalization of ensembles is introduced based on the grand canonica
 
 We refer to any unit or ensemble of units whose activity follows the statistical rules of the canonical ensemble as a hermotic canonical machine.
 
-Before addressing thementioned formalism, it is useful to first analyze the basic unit of neural networks, the neuron. This analysis allows understanding the physical origin of the model and justifying the assumptions made throughout this work.
+Before addressing the mentioned formalism, it is useful to first analyze the basic unit of neural networks, the neuron. This analysis allows understanding the physical origin of the model and justifying the assumptions made throughout this work.
 
 ## Neurons
 
 Neurons are the basic units of the nervous system. Each neuron receives, processes, and transmits signals to other neurons, forming complex networks that enable everything from simple reflexes to higher cognitive processes [@dayan2001theoretical].
 
-In the brain, neurons act in a coordinated manner, integrating the information received through their dendrites and, as a result of this process, generating and communicating signals to other neurons via their axon.
+In the brain, neurons act in a coordinated manner, integrating the information received through their dendrites and, as a result of this process, generating and communicating signals to other neurons via their respective axons.
 
 The mechanism by which a neuron communicates with others is called a synapse. In every synapse, two complementary types of neurons can be distinguished: the presynaptic neuron, responsible for sending the signal, and the postsynaptic neuron, responsible for receiving and integrating it.
 
@@ -48,7 +48,7 @@ A model is a simplified representation of a system, defined by a set of paramete
 
 Consider the case of neurons, which are systems composed of multiple interacting physical and chemical components that integrate signals and produce responses in a nontrivial manner. Computationally describing a real neuron would be an extremely complex task and goes beyond the scope of this work. We will therefore limit ourselves to describing only idealized neuron models, which we will refer to as artificial neurons.
 
-The simplest form of an artificial neuron is the perceptron, which can be described in terms of parameters $w^1, w^2, ..., w^d$, called synaptic weights, that allow the signals it integrates to be weighted.
+The simplest form of an artificial neuron is the perceptron, which can be described in terms of $d$ parameters $w^1, w^2, ..., w^d$, called synaptic weights, that allow the signals it integrates to be weighted. The number $d$ is known as the model dimension.
 
 We can extend the perceptron to a thermodynamic model by considering an additional parameter $U$, representing the internal energy of the neuron. With this new parameter, a perceptron configuration can be represented in terms of coordinates:
 
@@ -98,9 +98,9 @@ $$
 T \equiv \frac{1}{\beta} > 0.
 $$
 
-This formalism allows us to describe a neuron as an isolated system in equilibrium in terms of its weights and a fixed internal energy. However, we are interested in modeling how it behaves under energy exchanges, so it is necessary to extend the concept of equilibrium to systems in contact with different energy sources, in particular those known as reservoirs.
+This formalism allows us to describe a neuron as an isolated system in equilibrium in terms of its weights and a fixed internal energy. However, we are interested in modeling how it behaves under energy exchanges, so it is necessary to extend the concept of equilibrium to systems in contact with different energy sources, in particular, those known as reservoirs.
 
-Suppose the model is in equilibrium in contact with a reservoir with internal energy $U_R$​ and an entropy function $S_R$​. Since energy must be conserved, a virtual displacement of energy in the reservoir implies an opposite virtual displacement in the energy of the model, i.e.:
+Suppose the model is in equilibrium in contact with a reservoir with internal energy $U_R$​ and an entropy function $S_R$​. Since energy must be conserved, a virtual displacement of energy in the reservoir implies an opposite virtual displacement in the energy of the model, that is.:
 
 $$
 \delta U_R = -\delta U.
@@ -113,6 +113,10 @@ $$
 $$
 
 where $\beta_R$​ is the thermal parameter of the reservoir. Equilibrium is reached when the thermal parameters of the system and reservoir coincide:
+
+$$
+\beta = \beta_R.
+$$
 
 This allows us to state that a model in contact with an energy reservoir is in equilibrium if both are at the same temperature. For this reason, we will refer to energy reservoirs as thermal baths.
 
@@ -134,13 +138,13 @@ $$
 \delta \Phi = 0, \qquad \delta^2 \Phi < 0
 $$
 
-Thus, the free entropy provides the necessary constraints to describe the equilibrium of a model immersed in a thermal bath, i.e., at a temperature controlled by the environment, with internal energy that can undergo variations.
+Thus, the free entropy provides the necessary constraints to describe the equilibrium of a model immersed in a thermal bath with a temperature controlled by the environment, with internal energy that can undergo variations.
 
 ### Integration
 
-The signals integrated by a perceptron must carry both energy and information, because if they did not carry energy, they could not produce a physically distinguishable change in the model, and if they did not carry information, the physical change could be distinguishable but irrelevant.
+The signals integrated by a perceptron must carry both energy and information. If they don't carry energy, then, they won't be able to produce a physically distinguishable change in the model, and if they don't carry information, the physical change will be distinguishable but irrelevant.
 
-If we require that the signals carry energy, their integration must produce an increase$\delta U$ in the internal energy of the model and a corresponding variation in entropy. If this variation is small, it can be expanded to first order as:
+If we require that the signals carry energy, their integration must produce an increase $\delta U$ in the internal energy of the model and a corresponding variation in entropy. If this variation is small, it can be expanded to first order as:
 
 $$
 S(U+\delta U, \mathbf{w}) \approx S(U, \mathbf{w}) + \beta \delta U.
@@ -164,7 +168,7 @@ The integration of signals precedes the perceptron’s response, known as activa
 
 ### Activation
 
-According to Rosenblatt [@rosenblatt1958perceptron], the activation of an artificial neuron results from comparing the total contribution of the integrated signals to a threshold. If this quantity exceeds the threshold, the unit produces a response, otherwise, it remains inactive.
+According to McCulloch and Pitts [@mcculloch1943logical], the activation of an artificial neuron results from comparing the total contribution of the integrated signals to a threshold. If this quantity exceeds the threshold, the unit produces a response, otherwise, it remains inactive.
 
 This idea of threshold-based decision-making can be related to Maxwell’s demon [@maxwell1871theory], a hypothetical entity introduced by James Clerk Maxwell to illustrate the connection between information and physical processes.
 
@@ -215,7 +219,7 @@ $$
 \langle \Delta U \rangle \le -\langle E \rangle  
 $$
 
-By taking the expected values of the changes in entropy and internal energy associated with an activation event, we impose a mean-field value to the free entropy after the ocurrence of the mentioned events:
+By taking the expected values of the changes in entropy and internal energy associated with an activation event, we impose a mean-field value to the free entropy after the occurrence of the mentioned events:
 
 $$
 \Phi = S + \langle \Delta S \rangle - \beta (U + \langle \Delta U\rangle).
@@ -227,32 +231,30 @@ $$
 \Phi \ge S - k \big[ p \log p + (1-p) \log(1-p) \big] - \beta (U - p E)  
 $$
 
-which provides a deterministic, mean-field bound for the neuron’s free entropy in terms of the activation probability $p$, the energy cost $E$, and the thermal parameter $\beta$.
-
-Under the assumption that the model is in equilibrium, the free entropy satisfies the condition:
+which provides a deterministic, mean-field bound for the neuron’s free entropy in terms of the activation probability $p$, the energy cost $E$, and the thermal parameter $\beta$. Under the assumption that the model is in equilibrium, the free entropy satisfies the condition:
 
 $$
 \delta \Phi \approx 0,
 $$
 
-in any given direction, both before and after the activation event. This implies that virtual displacements in the free entropy due to changes in the activation probability are negligible, i.e.:
+in any given direction, both before and after the activation event. This implies that virtual displacements in the free entropy due to changes in the activation probability are negligible, that is:
 
 $$
-\frac{\delta \Phi}{\delta p} \approx 0  
+\frac{\delta \Phi}{\delta p} \approx 0.
 $$
 
 This translates to the approximate condition:
 
 $$
-- k \log \left( \frac{p}{1-p} \right) + \beta E \lesssim 0  
+- k \log \left( \frac{p}{1-p} \right) + \beta E \lesssim 0,  
 $$
 
-The symbol $\lesssim$ indicates an approximate equality valid to first order around equilibrium, reflecting small fluctuations in the stochastic activation event.
+where the symbol $\lesssim$ indicates an approximate equality valid to first order around equilibrium, reflecting small fluctuations in the stochastic activation event.
 
 This condition is satisfied only when the activation probability is determined by a balance between the energy cost $E$ and the thermal parameter $\beta$, giving rise to a dependency of the form:
 
 $$  
-p \gtrsim \frac{\exp\left(\frac{\beta}{k} E\right)}{1 + \exp\left(\frac{\beta}{k} E\right)} = \frac{1}{1 + \exp\left(-\frac{\beta}{k} E\right)}  
+p \gtrsim \frac{\exp\left(\frac{\beta}{k} E\right)}{1 + \exp\left(\frac{\beta}{k} E\right)} = \frac{1}{1 + \exp\left(-\frac{\beta}{k} E\right)}.
 $$
 
 The resulting expression shows that the probability of an activation event is bounded by a sigmoidal relation, with equality in the ideal case.
@@ -267,14 +269,14 @@ In this way, the logistic regression naturally emerges from the thermodynamic eq
 The latter plays a role in the degree of determinism of the decision. In the low-temperature limit, thermal fluctuations are negligible and the activation probability approaches a deterministic behavior. In contrast, at high temperatures, fluctuations lead to a stochastic regime in which activation is smoothly distributed between both states, and the decision becomes inherently probabilistic.
 
 ![{#fig:sigmoid_temperature_sweep_en}](assets/sigmoid_temperature_sweep_en.pdf)
-Activation probability ppp as a function of energy $E$ for different temperature values. Curves corresponding to high $\beta$ values (low temperatures) are shown in cool colors, while curves for low $\beta$ values (high temperatures) are shown in warm colors.
+Activation probability $p$ as a function of energy $E$ for different temperature values. Curves corresponding to high $\beta$ values (low temperatures) are shown in cool colors, while curves for low $\beta$ values (high temperatures) are shown in warm colors.
 
-In figure [@fig:sigmoid_temperature_sweep_en], the activation probability $p$ is plotted as a function of energy EEE for different temperatures. High $\beta$ values correspond to low temperatures, where the perceptron exhibits strongly deterministic decisions. In contrast, low $\beta$ values correspond to high temperatures, shown in warm colors (yellow and light green), and exhibit stochastic behavior, reflecting a higher degree of indecision in the response.
+In figure [@fig:sigmoid_temperature_sweep_en], the activation probability $p$ is plotted as a function of energy $E$ for different temperatures. High $\beta$ values correspond to low temperatures, where the perceptron exhibits strongly deterministic decisions. In contrast, low $\beta$ values correspond to high temperatures, shown in warm colors (yellow and light green) exhibit stochastic behavior, reflecting a higher degree of indecision in the response.
 
 Based on these observations, it is convenient to define the activation potential as the dimensionless quantity:
 
 $$  
-z \equiv \frac{\beta}{k} E  
+z \equiv \frac{\beta}{k} E.
 $$
 
 This potential summarizes all relevant information required to generate an activation event, as it incorporates both the energy cost associated with the event and the influence of temperature on the decision process. 
@@ -324,27 +326,27 @@ The figure [@fig:swish_to_relu_thermal_limit_en] shows how the $\text{SiLU}$ fun
 If the statistical model of activation is changed, different activation functions emerge. For example, modeling the system with Gaussian noise produces the $\text{GELU}$ (Gaussian Error Linear Unit [@hendrycks2016gelu]) activation function:
 
 $$
-a = x F(x) = \text{GELU}(x)  
+a = x F(x) = \text{GELU}(x),
 $$
 
-where $F$ is the cumulative distribution function of a standard normal. A complete description of this function is beyond the scope of this work.
+where $F$ is the cumulative distribution function of a standard normal. A complete description of this function can be achieved with the theory of fluctuations but is beyond the scope of this work.
 
 Moreover, the response does not necessarily have to be proportional to the activation potential. This is the case of the recently popularized $\text{GLU}$ (Gated Linear Units [@dauphin2017glu]), where the expected value of the response is described as:
 
 $$
-a = v \sigma(z) = \text{GLU}(v,z)  
+a = v \sigma(z) = \text{GLU}(v,z) ,
 $$
 
 where $v$ is a separate integrated quantity and $\sigma$ is the sigmoid function. In this way, the activation acts as a gating mechanism, deciding whether a signal passes through.
 
 The activation functions derived here cover most of those currently used to describe neuronal activation in modern neural network architectures, including sequence-transformer models.
 
-Within the framework developed in this work, activation functions that emerge directly from the statistical and thermodynamic principles governing canonical machines will be referred to as **hermotic activation functions**. These functions arise from the equilibrium and variational structure of the model, rather than from heuristic architectural choices.
+Within the framework developed in this work, activation functions that emerge directly from the statistical and thermodynamic principles governing canonical machines will be referred to as hermotic activation functions. These functions arise from the equilibrium and variational structure of the model, rather than from heuristic architectural choices.
 
-However, some activation functions do not appear to be directly derivable from the principles presented. An example is $\text{GLU}$ variants, which have become standard in sequence transformers. Recent work _GLU Variants Improve Transformer_ [@shazeer2020glu] shows that replacing the sigmoid in $\text{GLU}$ with other activation functions can significantly improve performance. That is, it proposes an activation of the form:
+However, some activation functions do not appear to be directly derivable from the principles presented. An example is $\text{GLU}$ variants, which have become standard in sequence transformers. Recent work _“GLU Variants Improve Transformer ”_ [@shazeer2020glu] shows that replacing the sigmoid in $\text{GLU}$ with other activation functions can significantly improve performance. That is, it proposes an activation of the form:
 
 $$
-a = v z \sigma(z)  
+a = v z \sigma(z) .
 $$
 
 This approach improves results for the previously derived functions, namely $\text{SiLU}$, $\text{ReLU}$, and $\text{GELU}$. The author acknowledges that the formal reason for their success is unknown.
@@ -362,13 +364,13 @@ We can model the postsynaptic response in energetic terms, associating excitator
 Now, suppose that during activation, there is not only a probability $p_+$ that the model undergoes an energy consumption $E$ but also a probability $p_-$ that the model increases its energy by the same magnitude due to a response, generating an inhibitory signal. Considering only these two responses, the expected value of the net energy change in the unit is:
 
 $$
-\langle E \rangle = p_+ E - p_- E  
+\langle E \rangle = p_+ E - p_- E  ,
 $$
 
 subject to the normalization condition $p_+ + p_- = 1$. Given these probabilities, the expected information contributed by the occurrence of this event is:
 
 $$
-\langle I \rangle = - k (p_+ \log p_+ + p_- \log p_-)  
+\langle I \rangle = - k (p_+ \log p_+ + p_- \log p_-)  .
 $$
 
 Following the same reasoning developed previously for the activation mechanism, we can approximate the internal energy and entropy variations of the model as:
@@ -379,19 +381,19 @@ $$
 \langle \Delta S \rangle \approx \langle I \rangle.  
 $$
 
-Assuming thermal equilibrium again, both before and after the neuron's response, the virtual displacements of the free entropy with respect to the occurrence probabilities should be approximately zero:
+Assuming thermal equilibrium again, both before and after the neuron's response, the virtual displacements of the free entropy with respect to the occurrence probabilities should be approximately zero, that is:
 
 $$
-\frac{\delta \Phi}{\delta p_+} \approx 0 \qquad \frac{\delta \Phi}{\delta p_-} \approx 0  
+\frac{\delta \Phi}{\delta p_+} \approx 0, \qquad \frac{\delta \Phi}{\delta p_-} \approx 0  .
 $$
 
 Next, considering a Lagrange multiplier $\lambda$, the free entropy subject to the normalization constraint, after the response, is:
 
 $$
-\Phi \approx S - k (p_+ \log p_+ + p_- \log p_-) - \beta (U - p_+ E + p_- E) + \lambda (1 - p_+ - p_-)  
+\Phi \approx S - k (p_+ \log p_+ + p_- \log p_-) - \beta (U - p_+ E + p_- E) + \lambda (1 - p_+ - p_-),
 $$
 
-Using the equilibrium conditions on the probabilities, we obtain expressions for both probabilities:
+and using the equilibrium conditions on the probabilities, we obtain expressions for both probabilities:
 
 $$ 
 \begin{aligned}  
@@ -411,10 +413,10 @@ $$
 We can now use the normalization condition to obtain an expression for the Lagrange multiplier. Summing both probabilities:
 
 $$
-1 = \exp(-\lambda) \left(\exp\left(\frac{\beta}{k} E\right) + \exp\left(-\frac{\beta}{k} E\right)\right) = 2 \exp(-\lambda) \cosh\left(\frac{\beta}{k} E\right)  
+1 = \exp(-\lambda) \left(\exp\left(\frac{\beta}{k} E\right) + \exp\left(-\frac{\beta}{k} E\right)\right) = 2 \exp(-\lambda) \cosh\left(\frac{\beta}{k} E\right) ,
 $$
 
-Substituting, we obtain that the probabilities of a neuron generating excitatory and inhibitory responses are, respectively:
+then substituting, we obtain that the probabilities of a neuron generating excitatory and inhibitory responses are, respectively:
 
 $$
 p_+ \approx \frac{\exp(\frac{\beta}{k} E)}{2 \cosh(\frac{\beta}{k} E)}, \qquad  
@@ -426,7 +428,7 @@ This equality is imposed in the ideal case. In these expressions, a symmetry bet
 ![{#fig:two_level_probabilities_en}](assets/two_level_probabilities_en.pdf)
 Probabilities of excitatory response $p_+$ in blue and inhibitory response $p_-$ in orange as a function of the quantity $\beta E / k$. 
  
-As illustrated in Figure [@fig:two_level_probabilities_en] both probabilities are symmetric under a sign change of the energy. For $E < 0$, the inhibitory response dominates ($p_- \approx 1$), while for $E > 0$, the excitatory response becomes predominant $p_+ \approx 1$. 
+As illustrated in Figure [@fig:two_level_probabilities_en], both probabilities are symmetric under a sign change of the energy. For $E < 0$, the inhibitory response dominates ($p_- \approx 1$), while for $E > 0$, the excitatory response becomes predominant $p_+ \approx 1$. 
 
 We observe that for negative energies, the probability of an inhibitory response is close to $1$, while the probability of an excitatory response is nearly zero. Conversely, for positive energies, excitation dominates and inhibitory responses become less likely.
 
@@ -448,7 +450,7 @@ with $z = \beta E / k$ being the previously defined activation potential. In thi
 ![{#fig:tanh_activation_en}](assets/tanh_activation_en.pdf)
 Action potential $a = \tanh(z)$ as a function of the activation potential $z = \beta E/k$ for a constant response magnitude $v = 1$. The action potential varies continuously between $-1$ and $1$. 
 
-In Figure [@fig:tanh_activation_en], the action potential $a$ increases continuously from $-1$ to $1$. For negative $z$, inhibition dominates and $a \approx -1$; for positive $z$, excitation dominates and $a \approx 1$. Around (z=0), the expected response is zero and the uncertainty is maximal.
+In Figure [@fig:tanh_activation_en], the action potential $a$ increases continuously from $-1$ to $1$. For negative $z$, inhibition dominates and $a \approx -1$; for positive $z$, excitation dominates and $a \approx 1$. Around $z=0$, the expected response is zero and the uncertainty is maximal.
 
 As with sigmoid activation functions, in an excitation–inhibition model, the determinism level of the response can also be influenced by temperature.
 
@@ -463,7 +465,7 @@ Next, we propose a natural generalization considering a model with arbitrary ene
  
 ### Attention
 
-So far, we have defined the energy of a state as a measure of the cost associated with a response, assigning probabilities to a small number of alternatives. However, in a more general setting, and based on ideas from physics, we can consider a unit with multiple accessible energy states, each characterized by a distinct energy level. This set of levels constitutes an energy spectrum, allowing for a more flexible modeling of a neuron that can generate different responses according to their relative cost.
+So far, we have defined the energy of a state as a measure of the cost associated with a response, assigning probabilities to binary events. However, in a more general setting, and based on ideas from physics, we can consider a unit with multiple possible responses, each characterized by a distinct energy cost. This set of energy costs constitutes an energy spectrum, allowing for a more flexible modeling of a neuron that can generate different responses according to its internal energy.
 
 Suppose a model with $l$ possible responses, each with energy costs $E_1, E_2, \dots, E_l$ and probabilities $p_1, \dots, p_l$ satisfying the normalization condition:
 
@@ -475,22 +477,22 @@ Under this description, the expected energy cost and the expected information co
 
 $$  
 \langle E \rangle = \sum_j p_j E_j, \qquad  
-\langle I \rangle = -k \sum_j p_j \log p_j  
+\langle I \rangle = -k \sum_j p_j \log p_j.
 $$
 
-Assuming thermal equilibrium, the variational derivatives with respect to the probabilities vanish, i.e.,
+Assuming thermal equilibrium, the variational derivatives of the free entropy with respect to the probabilities vanish, that is:
 
 $$  
-\frac{\delta \Phi}{\delta p_i} \approx 0 \qquad i = 1, \dots, l  
+\frac{\delta \Phi}{\delta p_i} \approx 0 \qquad i = 1, \dots, l  .
 $$
 
 We aim to maximize the free entropy subject to the normalization constraint. To do this, we introduce a Lagrange multiplier $\lambda$ so that the quantity to maximize is:
 
 $$
-\Phi \approx S - k \sum_j p_j \log p_j - \beta \left(U - \sum_j p_j E_j \right) + \lambda \left(1 - \sum_j p_j \right),
+\Phi \approx S - k \sum_j p_j \log p_j - \beta \left(U - \sum_j p_j E_j \right) + \lambda \left(1 - \sum_j p_j \right).
 $$
 
-differentiating this expression, we can find the extremum conditions in terms of the probabilities, energies, and the multiplier:
+Differentiating this expression, we can find the extremum conditions in terms of the probabilities, energies, and the multiplier:
 
 $$  
 -k (\log p_i + 1) + \beta E_i - \lambda \approx 0, \qquad i = 1, \dots, l,
@@ -499,7 +501,7 @@ $$
 Solving for the term containing the probability, we see that it depends on the energy and the proposed multiplier $\lambda$ as a logarithm:
 
 $$
-\log p_i \approx \frac{\beta}{k} E_i - \left(\frac{\lambda}{k} + 1\right)  
+\log p_i \approx \frac{\beta}{k} E_i - \left(\frac{\lambda}{k} + 1\right)  .
 $$
 
 Taking the inverse of the logarithm on both sides and using the normalization condition, we obtain:
@@ -517,20 +519,20 @@ $$
 then, the probability that the model incurs an energy expenditure $E_i$ is given by the distribution:
 
 $$  
-p_i = \frac{1}{Z} \exp\left(\frac{\beta}{k} E_i\right) = \frac{\exp(\frac{\beta}{k} E_i)}{\sum_j \exp(\frac{\beta}{k} E_j)}  
+p_i = \frac{1}{Z} \exp\left(\frac{\beta}{k} E_i\right) = \frac{\exp(\frac{\beta}{k} E_i)}{\sum_j \exp(\frac{\beta}{k} E_j)}  .
 $$
 
 This expression formally resembles the Boltzmann distribution but differs in the sign of the exponents and its meaning, since we are not calculating the probability of the neuron reaching an energy level but rather the probability of incurring an energy expenditure.
 
-In this way, a neuron that integrates stronger signals can generate more “aggressive” responses. Thus, states with higher energy expenditure are statistically favored, as they reduce the neuron’s internal energy more, naturally capturing the relationship between the magnitude of integration and a neuron’s propensity to activate.
+In this way, a neuron that integrates stronger signals can generate more aggressive responses. Thus, states with higher energy expenditure are statistically favored, as they reduce the neuron’s internal energy more, naturally capturing the relationship between the magnitude of integration and a neuron’s propensity to activate.
 
 Now consider a potential vector $\mathbf{z} \in \mathbb{R}^l$ whose components are the activation potentials:
 
 $$
-z_i = \frac{\beta}{k} E_i \qquad i = 1, 2, \dots, l  
+z_i = \frac{\beta}{k} E_i \qquad i = 1, 2, \dots, l  ,
 $$
 
-We can define a mass function for each coordinate of the potential, describing the probability distribution governing the model’s responses as:
+we can define a mass function for each coordinate of the potential, describing the probability distribution governing the model’s responses as:
 
 $$
 \rho_i(\mathbf{z}) = \frac{\exp(z_i)}{\sum_j \exp(z_j)} = \text{Softmax}(\mathbf{z})_i.
@@ -539,10 +541,10 @@ $$
 Although this result might suggest that a unit is capable of performing a classification task, since the function is the same as that used in classifiers, this is not the case, as a neuron can generate only a single signal. If $v^1, v^2, \dots, v^l$ are the possible responses, the action potential corresponds to the expected value:
 
 $$
-a = \sum_j \rho_j(\mathbf{z}) v^j  
+a = \sum_j \rho_j(\mathbf{z}) v^j,
 $$
 
-This result instead partially describes the attention mechanism used in sequence transformers, since the obtained expression is identical to self-attention if the activation potential is considered as an interaction between two signals from the same sequence, i.e., assuming that the potential coordinates are due to an interaction of the form:
+this result instead partially describes the attention mechanism used in sequence transformers, since the obtained expression is identical to self-attention if the activation potential is considered as an interaction between two signals from the same sequence. Assuming that the potential coordinates are due to an interaction of the form:
 
 $$  
 z_i = \gamma \mathbf{q} \cdot \mathbf{k}_i \qquad i = 1, \dots, l,
@@ -551,7 +553,7 @@ $$
 with $\gamma \in \mathbb{R}$ a scalar, $\mathbf{q}$ representing a query, and $\mathbf{k}_i$ representing one of the possible keys. Then the action potential takes the form:
 
 $$
-a = \sum_j \text{Softmax}(\gamma \mathbf{q} \cdot \mathbf{k}_j) \cdot v^j  
+a = \sum_j \text{Softmax}(\gamma \mathbf{q} \cdot \mathbf{k}_j) \cdot v^j,  
 $$
 
 which coincides with the self-attention mechanism expression in a one-dimensional model if the sum is identified as the inner product between the distribution and the corresponding responses.
@@ -568,16 +570,17 @@ From a thermodynamic perspective, a set of interacting neurons can be viewed as 
 
 ### Canonical Ensemble
 
-Consider now an ensemble of $n$ neurons of the same dimension, which we will refer to as a layer. The extensive property of internal energy allows us to model the neuron ensemble with a single internal energy $U$, so that a configuration can be written in terms of the coordinates:
+Consider now an ensemble of $n$ neurons of the same dimension $d$, which we will refer to as a layer. The extensive property of internal energy allows us to model the neuron ensemble with a single internal energy $U$, so that a configuration can be written in terms of the coordinates:
 
 $$
-(U, \mathbf{w}_1, \ldots, \mathbf{w}_n) \in \mathbb{R} \times \mathbb{R}^{d} \times \cdots \times \mathbb{R}^d  
+(U, \mathbf{w}_1, \ldots, \mathbf{w}_n) \in \mathbb{R} \times \mathbb{R}^{d} \times \cdots \times \mathbb{R}^d  ,
 $$
 
 where $\mathbf{w}_i \in \mathbb{R}^d$ represents the synaptic weights of the $i$-th neuron. It is natural to group these vectors into a single matrix $\mathbf{W} \in \mathbb{R}^{n \times d}$, so that the layer’s configuration can be compactly written as:
 
 $$
-(U, \mathbf{W}) \in \mathbb{R} \times \mathbb{R}^{n \times d} $$
+(U, \mathbf{W}) \in \mathbb{R} \times \mathbb{R}^{n \times d}.
+$$
 
 The concepts of equilibrium and entropy can be defined analogously to the case of a single neuron.
 
@@ -589,7 +592,7 @@ On the other hand, a layer of neurons can generate a joint response, whose meani
 
 #### Classifiers
 
-If we consider that the spectrum of posible responses produced by layer of $n$ neurons is asociated with $n$ energies $E_1, E_2, \ldots, E_n$ costs, and under the hypothesis of thermal equilibrium, following the maximum entropy principle developed in previous sections, the probability $p_i \ge 0$ of the layer incurring an energy expenditure $E_i$ is, according to the previous section:
+If we consider that the spectrum of possible responses produced by layer of $n$ neurons is associated with $n$ energies $E_1, E_2, \ldots, E_n$ costs, and under the hypothesis of thermal equilibrium, following the maximum entropy principle developed in previous sections, the probability $p_i \ge 0$ of the layer incurring an energy expenditure $E_i$ is, according to the previous section:
 
 $$
 p_i \approx \frac{1}{Z} \exp\left(\frac{\beta}{k} E_i\right)  
@@ -610,7 +613,7 @@ This shows that, unlike a single neuron, a layer of $n$ neurons can perform a cl
 
 #### Transformers
 
-Another construct that can naturally be described by layers with joint responses is the attention mechanism used in sequence transformer models.
+Another artifact that can naturally be described by layers with joint responses is the attention mechanism used in sequence transformer models.
 
 A sequence transformer model is a type of deep neural network designed to process sequential data, where each element of the sequence can interact with all others through an attention mechanism [@vaswani2017attention].
 
@@ -618,7 +621,7 @@ We are interested in interpreting a transformer as an ensemble of neurons organi
 
 Suppose a layer of $n$ neurons, each with an energy spectrum of $l$ levels. Under this description, each neuron can generate $l$ possible responses, associated, for example, with different positions in an input sequence.
 
-We assign to each neuron a distributed response $\mathbf{v}_i \in \mathbb{R}^l$, whose components represent the possible responses of the $i$-th neuron. It is convenient to introduce matrix notation for sequences, so that the sequence of responses can be represented as a matrix $\mathbf{V} \in \mathbb{R}^{l \times n}$, where each column corresponds to the distributed response of a neuron.
+We assign to each neuron a distributed response $\mathbf{v}_i \in \mathbb{R}^l$, whose components represent the possible responses of the $i$-th unit. It is convenient to introduce matrix notation for sequences, so that the sequence of responses can be represented as a matrix $\mathbf{V} \in \mathbb{R}^{l \times n}$, where each column corresponds to the distributed response of a neuron.
 
 Similarly, we denote by $\mathbf{Z} \in \mathbb{R}^{l \times l}$ the matrix of activation potentials, whose elements quantify interactions between queries and keys. These potentials are imposed via the product:
 
@@ -638,7 +641,7 @@ $$
 \mathbf{A} = \text{Softmax}(\gamma \mathbf{Q} \cdot \mathbf{K}) \mathbf{V}.  
 $$
 
-This corresponds to the expression used attention mechanism. The precise nature of the interactions generating the activation potential matrix $\mathbf{Z}$ is beyond the scope of this work. Recent techniques, such as Rotary Positional Embeddings (RoPE) [@su2021roformer], incorporate positional information through complex rotations in the query and key space, suggesting that these signals could be conceptualized as waves in a complex space. Verifying this hypothesis is left as future work.
+This corresponds to the expression used in attention mechanism. The precise nature of the interactions generating the activation potential matrix $\mathbf{Z}$ is beyond the scope of this work. Recent techniques, such as Rotary Positional Embeddings $\text{RoPE}$ [@su2021roformer], incorporate positional information through complex rotations in the query and key space, suggesting that these signals could be conceptualized as waves in a complex space. Verifying this hypothesis is left as future work.
 
 While the canonical ensemble adequately explains the attention mechanism when the set of interactions is fixed, it does not address how these interactions may vary dynamically according to the length of the transformed sequence. In this work, we do not analyze this aspect in detail, but we propose a new type of ensemble that extends the canonical model and allows the description of systems with a variable number of active units, thereby capturing the dynamic nature of certain attention models.
 
@@ -688,7 +691,7 @@ substituting and expanding the terms, we see that this potential is conserved fo
 
 In this way, the introduction of the occupation number and its conjugate parameter allows us to characterize the equilibrium of a layer when certain units are more active than others, without compromising the global stability of the ensemble.
 
-This approach not only generalizes the case of a layer with a fixed number of units but also opens the possibility of modeling selective activation dynamics: some neurons may contribute more to the collective state while others are temporarily inactive. This idea naturally connects to phenomena observed in neuroscience, such as synaptic supression.
+This approach not only generalizes the case of a layer with a fixed number of units but also opens the possibility of modeling selective activation dynamics: some units may contribute more to the collective state while others are temporarily inactive. This idea naturally connects to phenomena observed in neuroscience, such as synaptic suppression.
 
 #### Suppression
 
@@ -745,9 +748,9 @@ $$
 This shows that the chemical potential $\mu$ acts as a threshold, suppressing neuronal activation depending on its potential.
 
 ![{#fig:synaptic_suppression_threshold_en}](assets/synaptic_suppression_threshold_en.pdf)
-Probability of supression as a function of energy $E$ and chemical potential $\mu$ (dashed vertical line). 
+Probability of suppression as a function of energy $E$ and chemical potential $\mu$ (dashed vertical line). 
 
-Figure [@fig:synaptic_suppression_threshold_en] shows that for $E<\mu$ the supression probability approaches $1$, whereas for $E>\mu$ it decreases quickly, reflecting suppression of less active connections and prioritization of energetically relevant signals.
+Figure [@fig:synaptic_suppression_threshold_en] shows that for $E<\mu$ the suppression probability approaches $1$, whereas for $E>\mu$ it decreases quickly, reflecting suppression of less active connections and prioritization of energetically relevant signals.
  
 If $z$ is the activation potential and $\theta = k \alpha$ is a reparameterization of the chemical parameter, the probability of a neuron’s postsynaptic connection not being suppressed can be represented by the sigmoidal function:
 
@@ -767,9 +770,9 @@ Thus, the chemical potential regulates the neuron’s effective activation. Incr
 ![{#fig:synaptic_suppression_property_en}](assets/synaptic_suppression_property_en.pdf)
 Probability of postsynaptic connection survival $\sigma(z-\theta)$ as a function of activation potential $z$ for different values of chemical parameter $\theta$ shown in different colors. 
 
-Figure [@fig:synaptic_suppression_property_en] shows that increasing $\theta$ shifts the sigmoid rightward, increasing suppression probability for a given $z$, while decreasing $h$ shifts it leftward.
+Figure [@fig:synaptic_suppression_property_en] shows that increasing $\theta$ shifts the sigmoid rightward, increasing suppression probability for a given $z$, while decreasing $\theta$ shifts it leftward.
 
-Therefore, if a neuron has an activation function $f$ asociated with response $v$, the action potential considering suppression is:
+Therefore, if a neuron has an activation function $f$ associated with response $v$, the action potential considering suppression is:
 
 $$
 a = \sigma(z-\theta) f(z) v.  
@@ -780,7 +783,7 @@ For instance, if $f = \tanh$ and $v=1$, the chemical potential suppresses inhibi
 ![{#fig:suppressed_tanh_activation_sweep_en}](assets/suppressed_tanh_activation_sweep_en.pdf)
 Resulting action potential $a=\sigma(z-\theta)\tanh(z)$ as a function of activation potential $z$ for different chemical parameter values $\theta$. This figure combines the excitation-inhibition mechanism with synaptic suppression.
 
-The figure [@fig:suppressed_tanh_activation_sweep_en] shows the following effects of synapse supression:
+The figure [@fig:suppressed_tanh_activation_sweep_en] shows the following effects of synapse suppression:
 
 - For $\theta \ll 0$ suppression is minimal, and the action potential follows the original $\tanh$ almost entirely.
     
@@ -807,7 +810,7 @@ $$
 
 In the limit $\theta \to -\infty$, the sigmoid tends to 1 for all neurons, eliminating suppression effects. This shows that a model considering synaptic suppression via a chemical potential is at least as expressive as a model without suppression.
 
-Thus, we have introduced a synaptic suppression mechanism derived from the grand canonical ensemble formalism, showing how the chemical potential acts as a threshold that regulates neuron contribution both at the individual activation level and in collective mechanisms such as attention.
+Thus, we have introduced a synaptic suppression mechanism derived from the grand canonical ensemble formalism, showing how the chemical potential can act as a threshold that regulates neuron contribution both at the individual activation level and in collective mechanisms such as attention.
 
 While this framework provides a consistent thermodynamic interpretation, it remains to be evaluated empirically. In particular, the effects of excitation-inhibition and synaptic suppression on model behavior during training and inference need to be tested.
 

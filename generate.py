@@ -110,23 +110,33 @@ def convert_sections(text: str) -> str:
             text, flags=re.M)
     return text
 
+
 def convert_lists(text: str) -> str:
     lines = text.splitlines()
-    out, in_list = [], False
+    out = []
+    in_list = False
+
     for line in lines:
-        if re.match(r"^\s*-\s+", line) and not line.startswith("@@EQ"):
+        if re.match(r"^\s*-\s+", line):
             if not in_list:
                 out.append(r"\begin{itemize}")
                 in_list = True
             out.append(r"  \item " + line.lstrip("- ").strip())
+
+        elif in_list and line.strip() == "":
+            continue
+
         else:
             if in_list:
                 out.append(r"\end{itemize}")
                 in_list = False
             out.append(line)
+
     if in_list:
         out.append(r"\end{itemize}")
+
     return "\n".join(out)
+
 
 def convert_inline_formatting(text: str) -> str:
     text = re.sub(r"\*\*(.*?)\*\*", r"\\textbf{\1}", text)
