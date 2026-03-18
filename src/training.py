@@ -35,7 +35,6 @@ def fit(
         metrics.update(loss, argmax(output, dim=1), targets) 
     return metrics.compute()
 
-
 def evaluate(
     model: Module,
     criterion: Callable[[Tensor, Tensor], Tensor],

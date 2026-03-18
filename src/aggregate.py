@@ -38,8 +38,15 @@ class Classifier(Module):
     @property
     def name(self) -> str: 
         aliases = { 
-            "hidden_dimension": "hdim",  
-            "dropout_rate": "p"
+            "image_size": "imgz",
+            "patch_size": "pz",
+            "model_dimension": "dim",
+            "hidden_dimension": "hdim",
+            "number_of_heads": "nhead",
+            "number_of_layers": "nlayer",
+            "number_of_classes": "ncls",
+            "dropout_rate": "p",
+            "activation": "act"
         } 
         parts = [f"{getname(self.nn)}-s{self.seed}"]
         for key, value in sorted(getarguments(self.nn).items()):

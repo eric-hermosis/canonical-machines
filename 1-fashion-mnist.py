@@ -22,7 +22,7 @@ from src.logging import Logger
 from src.metrics import Metrics
 from src.aggregate import Classifier
    
-EPOCHS = 300 
+EPOCHS = 200 
 
 def set_seed(seed: int):
     random.seed(seed)
@@ -64,8 +64,7 @@ def run(aggregate: Classifier, loaders: dict[str, DataLoader], logger: Logger):
         save(aggregate.state_dict(), path)
         print(f"Saved weights → {path}")
     finally:
-        logger.close()
- 
+        logger.close() 
   
 registry = Registry[Module]()
 registry.register(MLPPerceptron)
