@@ -10,9 +10,8 @@ from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR 
 from torch.utils.data import DataLoader    
 from torchsystem.registry import Registry
-
-from src.models.transformers.ViT import ViT
-from src.models.transformers.GLUViT import GLUViT
+  
+from src.models.transformers.SwiGLUViT import SwiGLUViT
 from src.datasets.cifar import CIFAR
 from src.training import iterate
 from src.logging import Logger
@@ -64,7 +63,7 @@ def run(aggregate: Classifier, loaders: dict[str, DataLoader], logger: Logger):
         logger.close() 
   
 registry = Registry[Module]() 
-registry.register(GLUViT)
+registry.register(SwiGLUViT) 
 
 if __name__ == '__main__':    
     os.environ["CUBLAS_WORKSPACE_CONFIG"] = ":4096:8"

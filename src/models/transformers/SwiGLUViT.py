@@ -5,7 +5,8 @@ from torch import Tensor
 from torch.nn import Module, Parameter, ModuleList
 from torch.nn import Linear, LayerNorm, Conv2d
 from torch.nn import Dropout
-from torch import sigmoid, softmax, exp
+from torch.nn.functional import silu
+from torch.nn.functional import scaled_dot_product_attention as attention
 
 class Perceptron(Module): 
     def __init__(
@@ -14,20 +15,19 @@ class Perceptron(Module):
         hidden_dimension: int,
         dropout_rate: float 
     )-> None:
-        super().__init__()
-        self.norm = LayerNorm(model_dimension, eps=1e-6) 
-        self.theta = Parameter(zeros(1, 1, 1)) # Funciona pero zeros(1, 1, hidden_dimension) o zeros(1,sequence_length,1) no funciona bien.
+        super().__init__() 
+        self.norm  = LayerNorm(model_dimension, eps=1e-6) 
         self.z_projector = Linear(model_dimension, hidden_dimension)
         self.v_projector = Linear(model_dimension, hidden_dimension)
         self.o_projector = Linear(hidden_dimension, model_dimension)
         self.dropout = Dropout(dropout_rate)
 
-    def forward(self, features): 
+    def forward(self, features: Tensor) -> Tensor: 
         features = self.norm(features)  
-        features =  self.v_projector(features) * sigmoid(self.z_projector(features)  - self.theta)
+        features =  self.v_projector(features) * silu(self.z_projector(features))
         features = self.dropout(features)
         features = self.o_projector(features)
-        return self.dropout(features)
+        return self.dropout(features)  
 
 class Attention(Module): 
     def __init__(
@@ -39,7 +39,6 @@ class Attention(Module):
         super().__init__()
         assert model_dimension % number_of_heads == 0
         self.norm  = LayerNorm(model_dimension, eps=1e-6)
-        self.theta = Parameter(zeros(1, 1, 1, 1)) # (1, number_of_heads, 1, 1) tampoco funcionca
         self.q_projector = Linear(model_dimension, model_dimension)
         self.k_projector = Linear(model_dimension, model_dimension)
         self.v_projector = Linear(model_dimension, model_dimension)  
@@ -54,7 +53,6 @@ class Attention(Module):
     def merge(self, sequence: Tensor) -> Tensor: 
         sequence = sequence.transpose(1, 2)
         return sequence.reshape(*sequence.shape[:-2], -1) 
-
  
     def forward(self, sequence: Tensor, mask: Optional[Tensor] = None) -> Tensor:
         sequence = self.norm(sequence)
@@ -63,21 +61,13 @@ class Attention(Module):
         k = self.k_projector(sequence)
         v = self.v_projector(sequence) 
 
-        q, k, v = self.split(q), self.split(k), self.split(v)
-        
-        z = q @ k.transpose(-2, -1)  / sqrt(q.size(-1)) 
-        if mask is not None:
-            mask = mask[:, None, None, :].bool()
-            z = z.masked_fill(~mask, float('-inf')) 
-             
-        scores = sigmoid(z-self.theta) * exp(z) 
-        scores = scores /  scores.sum(dim=-1, keepdim=True)
-        sequence = scores @ v 
+        q, k, v = self.split(q), self.split(k), self.split(v) 
 
-        sequence = softmax(z, dim=-1) @ v
+        sequence = attention(q, k, v, mask if mask else None)
         sequence = self.merge(sequence)
         sequence = self.o_projector(sequence)
         return self.dropout(sequence)
+    
 
 class Encoder(Module): 
     def __init__(
@@ -94,7 +84,7 @@ class Encoder(Module):
     def forward(self, sequence: Tensor, mask: Optional[Tensor] = None) -> Tensor: 
         sequence = sequence + self.attention(sequence, mask) 
         sequence = sequence + self.perceptron(sequence) 
-        return sequence
+        return sequence 
 
 
 class Transformer(Module): 
@@ -127,7 +117,7 @@ class Positions(Module):
         self.embeddings = Parameter(zeros(1, sequence_lenght, model_dimension))
     
     def forward(self, sequence: Tensor) -> Tensor: 
-        return sequence + self.embeddings
+        return sequence + self.embeddings 
     
 
 class Labels(Module):
@@ -143,7 +133,7 @@ class Labels(Module):
         return concat((self.embeddings.expand(sequence.size(0), -1, -1), sequence), dim=1) 
 
 
-class SASGLUViT(Module):  
+class SwiGLUViT(Module):  
     def __init__(
         self,  
         image_size: tuple[int, int], 
