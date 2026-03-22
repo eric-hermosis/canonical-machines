@@ -1,4 +1,4 @@
-# Canonical Machines
+<# Canonical Machines
 
 ## Introduction
 
@@ -692,7 +692,7 @@ substituting and expanding the terms, we see that this potential is conserved fo
 In this way, the introduction of the occupation number and its conjugate parameter allows us to characterize the equilibrium of a layer when certain units are more active than others, without compromising the global stability of the ensemble.
 
 This approach not only generalizes the case of a layer with a fixed number of units but also opens the possibility of modeling selective activation dynamics: some units may contribute more to the collective state while others are temporarily inactive. This idea naturally connects to phenomena observed in neuroscience, such as synaptic suppression.
-
+>
 #### Suppression
 
 In neuroscience, synaptic elimination has been studied for decades as a central component of nervous system development, associated with circuit refinement. The loss of connections is not interpreted as a failure, but rather as a necessary condition for robust functional patterns to emerge [@huttenlocher1979synaptic].

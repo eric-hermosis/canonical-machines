@@ -72,9 +72,9 @@ if __name__ == '__main__':
     torch.use_deterministic_algorithms(True)  
 
     model_configs = [
-        {"dim": 64, "hdim": 256, "heads": 4, "layers": 4},
-        {"dim": 96, "hdim": 384, "heads": 4, "layers": 5},
-        {"dim": 128, "hdim": 512, "heads": 4, "layers": 6},
+#        {"dim": 64, "hdim": 256, "heads": 4, "layers": 4},
+#        {"dim": 96, "hdim": 384, "heads": 4, "layers": 5},
+#        {"dim": 128, "hdim": 512, "heads": 4, "layers": 6},
         {"dim": 192, "hdim": 768, "heads": 4, "layers": 7},
     ]   
 
